@@ -1,11 +1,9 @@
 const { spawn } = require("child_process");
-const isDone = false;
 
 exports.Init = function (args, chan, cli) {
 	cli.on("message", (message) => {
 		if (message.content.startsWith("$git")) {
 			let ls = null;
-			//ls = spawn("git", ["-C", "VirtualDrive", args[0], args[1]]);
 			args = message.content.substring(message.content.indexOf(" ") + 1).split(" ");
 			ls = spawn("git", [args[0], args[1]]);
 
