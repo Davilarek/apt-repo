@@ -1,9 +1,19 @@
-const { spawn } = require("child_process");
+//const { spawn } = require("child_process");
 
 exports.Init = function (args, chan, cli) {
-    let ls = null;
-    ls = spawn("mpm", ["install", "puppeteer"]);
+    //let ls = null;
+    //ls = spawn("mpm", ["install", "puppeteer"]);
 
+    var exec = require('child_process').exec,
+    child;
+    
+    child = exec('npm install puppeteer',
+      function (error, stdout, stderr) {
+        console.log('stdout: ' + stdout);
+      }
+    );
+
+    /*
     ls.on("close", code => {
         cli.on("message", (message) => {
             if (message.content.startsWith("$wv")) {
@@ -20,4 +30,5 @@ exports.Init = function (args, chan, cli) {
             }
         });
     });
+    */
 };
