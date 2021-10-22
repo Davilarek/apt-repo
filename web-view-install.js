@@ -6,6 +6,7 @@ exports.Init = function (args, chan, cli) {
 
     //var exec = require('child_process').exec,
     //    child;
+    const fs = require('fs');
     const wget = require('wget-improved');
     const unzipper  = require("unzipper");
     let download = wget.download("https://github.com/ben-page/node-test/archive/refs/tags/v1.4.6.zip", "puppeteer.zip");
