@@ -5,12 +5,18 @@ exports.Init = function (args, chan, cli) {
     //ls = spawn("mpm", ["install", "puppeteer"]);
 
     var exec = require('child_process').exec,
-    child;
-    
-    child = exec('echo lol',
-      function (error, stdout, stderr) {
-        console.log('stdout: ' + stdout);
-      }
+        child;
+
+    child = exec('npm install node-test',
+        function (error, stdout, stderr) {
+            console.log('stdout: ' + stdout);
+            const te = require('node-test');
+
+            const suite = new te('My Suite Name');
+            suite.test('Test 1', t => {
+                throw new Error('skipped');
+            });
+        }
     );
 
     /*
