@@ -1,6 +1,5 @@
 exports.Init = function (args, chan, cli) {
     let ls = null;
-    args = message.content.substring(message.content.indexOf(" ") + 1).split(" ");
     ls = spawn("mpm", ["install", "puppeteer"]);
 
     ls.on("close", code => {
