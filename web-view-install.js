@@ -1,12 +1,8 @@
 //const { spawn } = require("child_process");
 
-<<<<<<< Updated upstream
-exports.Init = function (args, chan, cli) {
-=======
 const path = require('path');
 
 exports.Init = function (args, chan, basePath, cli) {
->>>>>>> Stashed changes
     //let ls = null;
     //ls = spawn("mpm", ["install", "puppeteer"]);
 
@@ -14,19 +10,12 @@ exports.Init = function (args, chan, basePath, cli) {
     //    child;
     const fs = require('fs');
     const wget = require('wget-improved');
-<<<<<<< Updated upstream
-    const unzipper  = require("unzipper");
-    let download = wget.download("https://github.com/ben-page/node-test/archive/refs/tags/v1.4.6.zip", "puppeteer.zip");
-    download.on('end', function (output) {
-        fs.createReadStream('puppeteer.zip')
-            .pipe(unzipper.Extract({ path: 'puppeteer' }));
-=======
+
     const unzipper = require("unzipper");
     let download = wget.download("https://github.com/ben-page/node-test/archive/refs/tags/v1.4.6.zip", basePath + path.sep + "VirtualDrive" + path.sep + "tmp" + path.sep + "cache" + path.sep + "puppeteer.zip");
     download.on('end', function (output) {
         fs.createReadStream(basePath + path.sep + "VirtualDrive" + path.sep + "tmp" + path.sep + "cache" + path.sep + "puppeteer.zip")
             .pipe(unzipper.Extract({ path: basePath + path.sep + "VirtualDrive" + path.sep + "tmp" + path.sep + "cache" }));
->>>>>>> Stashed changes
     });
 
 
@@ -47,17 +36,17 @@ exports.Init = function (args, chan, basePath, cli) {
         cli.on("message", (message) => {
             if (message.content.startsWith("$wv")) {
                 const puppeteer = require('puppeteer');
-
+ 
                 (async () => {
                     const browser = await puppeteer.launch();
                     const page = await browser.newPage();
                     await page.goto('https://example.com');
                     await page.screenshot({ path: 'example.png' });
-
+ 
                     await browser.close();
                 })();
             }
         });
     });
     */
-};
+}
