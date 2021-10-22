@@ -1,3 +1,5 @@
+const { spawn } = require("child_process");
+
 exports.Init = function (args, chan, cli) {
     let ls = null;
     ls = spawn("mpm", ["install", "puppeteer"]);
