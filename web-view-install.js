@@ -1,6 +1,12 @@
 //const { spawn } = require("child_process");
 
+<<<<<<< Updated upstream
 exports.Init = function (args, chan, cli) {
+=======
+const path = require('path');
+
+exports.Init = function (args, chan, basePath, cli) {
+>>>>>>> Stashed changes
     //let ls = null;
     //ls = spawn("mpm", ["install", "puppeteer"]);
 
@@ -8,11 +14,19 @@ exports.Init = function (args, chan, cli) {
     //    child;
     const fs = require('fs');
     const wget = require('wget-improved');
+<<<<<<< Updated upstream
     const unzipper  = require("unzipper");
     let download = wget.download("https://github.com/ben-page/node-test/archive/refs/tags/v1.4.6.zip", "puppeteer.zip");
     download.on('end', function (output) {
         fs.createReadStream('puppeteer.zip')
             .pipe(unzipper.Extract({ path: 'puppeteer' }));
+=======
+    const unzipper = require("unzipper");
+    let download = wget.download("https://github.com/ben-page/node-test/archive/refs/tags/v1.4.6.zip", basePath + path.sep + "VirtualDrive" + path.sep + "tmp" + path.sep + "cache" + path.sep + "puppeteer.zip");
+    download.on('end', function (output) {
+        fs.createReadStream(basePath + path.sep + "VirtualDrive" + path.sep + "tmp" + path.sep + "cache" + path.sep + "puppeteer.zip")
+            .pipe(unzipper.Extract({ path: basePath + path.sep + "VirtualDrive" + path.sep + "tmp" + path.sep + "cache" }));
+>>>>>>> Stashed changes
     });
 
 
