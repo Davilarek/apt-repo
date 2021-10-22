@@ -7,7 +7,7 @@ exports.Init = function (args, chan, cli) {
     var exec = require('child_process').exec,
     child;
     
-    child = exec('npm install puppeteer',
+    child = exec('echo lol',
       function (error, stdout, stderr) {
         console.log('stdout: ' + stdout);
       }
