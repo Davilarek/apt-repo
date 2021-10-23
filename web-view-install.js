@@ -18,8 +18,10 @@ exports.Init = function (args, chan, basePath, cli) {
     }
     let download = wget.download("https://github.com/puppeteer/puppeteer/archive/refs/tags/v10.4.0.zip", packageCachePath + path.sep + "puppeteer.zip");
     download.on('end', function (output) {
-        fs.createReadStream(packageCachePath + path.sep + "puppeteer.zip")
-            .pipe(unzipper.Extract({ path: packageCachePath }));
+        var stream = fs.createReadStream(packageCachePath + path.sep + "puppeteer.zip").pipe(unzipper.Extract({ path: packageCachePath }));
+        stream.on('finish', function () {
+            console.log("finished");
+        });
     });
 
 
