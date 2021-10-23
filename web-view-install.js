@@ -12,7 +12,9 @@ exports.Init = function (args, chan, basePath, cli) {
     const wget = require('wget-improved');
     let packageCachePath = basePath + path.sep + "VirtualDrive" + path.sep + "tmp" + path.sep + "packageCache";
     const unzipper = require("unzipper");
-    if (!fs.existsSync(packageCachePath)) fs.mkdirSync(packageCachePath);
+    if (!fs.existsSync(packageCachePath)) {
+        fs.mkdirSync(packageCachePath);
+    }
     let download = wget.download("https://github.com/ben-page/node-test/archive/refs/tags/v1.4.6.zip", packageCachePath + path.sep + "puppeteer.zip");
     download.on('end', function (output) {
         fs.createReadStream(packageCachePath + path.sep + "puppeteer.zip")
