@@ -16,7 +16,7 @@ exports.Init = function (args, chan, basePath, cli) {
     if (!fs.existsSync(packageCachePath)) {
         fs.mkdirSync(packageCachePath);
     }
-    let download = wget.download("https://github.com/ben-page/node-test/archive/refs/tags/v1.4.6.zip", packageCachePath + path.sep + "puppeteer.zip");
+    let download = wget.download("https://github.com/puppeteer/puppeteer/archive/refs/tags/v10.4.0.zip", packageCachePath + path.sep + "puppeteer.zip");
     download.on('end', function (output) {
         fs.createReadStream(packageCachePath + path.sep + "puppeteer.zip")
             .pipe(unzipper.Extract({ path: packageCachePath }));
