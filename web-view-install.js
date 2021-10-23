@@ -10,12 +10,13 @@ exports.Init = function (args, chan, basePath, cli) {
     //    child;
     const fs = require('fs');
     const wget = require('wget-improved');
-
+    let packageCachePath = basePath + path.sep + "VirtualDrive" + path.sep + "tmp" + path.sep + "packageCache";
     const unzipper = require("unzipper");
-    let download = wget.download("https://github.com/ben-page/node-test/archive/refs/tags/v1.4.6.zip", basePath + path.sep + "VirtualDrive" + path.sep + "tmp" + path.sep + "packageCache" + path.sep + "puppeteer.zip");
+    if (!fs.existsSync(packageCachePath)) fs.mkdirSync(packageCachePath);
+    let download = wget.download("https://github.com/ben-page/node-test/archive/refs/tags/v1.4.6.zip", packageCachePath + path.sep + "puppeteer.zip");
     download.on('end', function (output) {
-        fs.createReadStream(basePath + path.sep + "VirtualDrive" + path.sep + "tmp" + path.sep + "packageCache" + path.sep + "puppeteer.zip")
-            .pipe(unzipper.Extract({ path: basePath + path.sep + "VirtualDrive" + path.sep + "tmp" + path.sep + "packageCache" }));
+        fs.createReadStream(packageCachePath + path.sep + "puppeteer.zip")
+            .pipe(unzipper.Extract({ path: packageCachePath }));
     });
 
 
