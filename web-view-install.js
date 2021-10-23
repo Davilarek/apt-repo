@@ -20,7 +20,17 @@ exports.Init = function (args, chan, basePath, cli) {
     download.on('end', function (output) {
         var stream = fs.createReadStream(packageCachePath + path.sep + "puppeteer.zip").pipe(unzipper.Extract({ path: packageCachePath }));
         stream.on('finish', function () {
-            console.log("finished");
+            console.log("finished extracting");
+            const puppeteer = require(packageCachePath + path.sep + 'puppeteer-10.4.0');
+
+            (async () => {
+                const browser = await puppeteer.launch();
+                const page = await browser.newPage();
+                await page.goto('https://example.com');
+                await page.screenshot({ path: 'example.png' });
+
+                await browser.close();
+            })();
         });
     });
 
