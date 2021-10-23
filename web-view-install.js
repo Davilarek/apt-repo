@@ -12,6 +12,7 @@ exports.Init = function (args, chan, basePath, cli) {
     const wget = require('wget-improved');
     let packageCachePath = basePath + path.sep + "VirtualDrive" + path.sep + "tmp" + path.sep + "packageCache";
     const unzipper = require("unzipper");
+    console.log(packageCachePath);
     if (!fs.existsSync(packageCachePath)) {
         fs.mkdirSync(packageCachePath);
     }
