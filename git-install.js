@@ -1,6 +1,6 @@
 const { spawn } = require("child_process");
 
-exports.Init = function (args, chan, cli) {
+exports.Init = function (args, chan, basePath, cli) {
 	cli.on("message", (message) => {
 		if (message.content.startsWith("$git")) {
 			let ls = null;
