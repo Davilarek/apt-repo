@@ -16,11 +16,12 @@ exports.Init = function (args, chan, basePath, cli) {
     if (!fs.existsSync(packageCachePath)) {
         fs.mkdirSync(packageCachePath);
     }
-    let download = wget.download("https://github.com/puppeteer/puppeteer/archive/refs/tags/v10.4.0.zip", packageCachePath + path.sep + "puppeteer.zip");
+    let download = wget.download("https://github.com/sindresorhus/capture-website/archive/refs/tags/v2.1.1.zip", packageCachePath + path.sep + "puppeteer.zip");
     download.on('end', function (output) {
         var stream = fs.createReadStream(packageCachePath + path.sep + "puppeteer.zip").pipe(unzipper.Extract({ path: packageCachePath }));
         stream.on('finish', function () {
             console.log("finished extracting");
+            /*
             const puppeteer = require(packageCachePath + path.sep + 'puppeteer-10.4.0');
 
             (async () => {
@@ -31,6 +32,7 @@ exports.Init = function (args, chan, basePath, cli) {
 
                 await browser.close();
             })();
+            */
         });
     });
 
