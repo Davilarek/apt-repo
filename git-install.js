@@ -5,7 +5,7 @@ exports.Init = function (args, chan, basePath, cli) {
 		if (message.content.startsWith("$git")) {
 			let ls = null;
 			args = message.content.substring(message.content.indexOf(" ") + 1).split(" ");
-			ls = spawn("git", [args[0], args[1]]);
+			ls = spawn("git", args);
 
 			ls.stdout.on("data", data => {
 				console.log(`${data}`);
