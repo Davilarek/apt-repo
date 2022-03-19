@@ -49,6 +49,7 @@ exports.Init = function (args, chan, basePath, cli) {
                                 }
                             })
                             .catch(collected => {
+                                console.log(collected);
                                 message.channel.send('Timeout');
                             });
                     })
@@ -61,4 +62,4 @@ exports.Init = function (args, chan, basePath, cli) {
     });
 };
 
-exports.Version = 1.8;
+exports.Version = 2.0;
