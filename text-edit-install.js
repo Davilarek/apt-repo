@@ -27,6 +27,8 @@ exports.Init = function (args, chan, basePath, cli) {
                                         console.log(data.replace(/(\r)+/gm, "\\r").replace(/(\n)+/gm, "\\n"))
                                         dataClear = null;
                                         for (let i = 0; i < data.split(/(\n)+/gm); i++) {
+                                            console.log(i);
+                                            console.log(data.split(/(\n)+/gm)[i]);
                                             if (i == 0) { continue; }
                                             if (i == (data.split(/(\n)+/gm).length + 1)) { continue; }
                                             dataClear += data.split(/(\n)+/gm)[i];
@@ -48,4 +50,4 @@ exports.Init = function (args, chan, basePath, cli) {
     });
 };
 
-exports.Version = 1.1;
+exports.Version = 1.2;
