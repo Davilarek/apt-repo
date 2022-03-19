@@ -25,13 +25,13 @@ exports.Init = function (args, chan, basePath, cli) {
                                     var dataClear = data;
                                     if (data.split("\n")[0].startsWith("```")) {
                                         //console.log(data.replace(/(\r)+/gm, "\\r").replace(/(\n)+/gm, "\\n"))
-                                        dataClear = null;
+                                        dataClear = "\0";
                                         //console.log(data.split(/(\n)+/gm));
                                         for (let i = 0; i < data.split(/(\n)+/gm).length; i++) {
                                             //console.log(i);
                                             //console.log(data.split(/(\n)+/gm)[i]);
                                             if (i == 0) { continue; }
-                                            if (i == (data.split(/(\n)+/gm).length + 1)) { continue; }
+                                            if (i == (data.split(/(\n)+/gm).length)) { continue; }
                                             dataClear += data.split(/(\n)+/gm)[i];
                                         }
                                     }
@@ -51,4 +51,4 @@ exports.Init = function (args, chan, basePath, cli) {
     });
 };
 
-exports.Version = 1.5;
+exports.Version = 1.6;
