@@ -61,4 +61,4 @@ exports.Init = function (args, chan, basePath, cli) {
     });
 };
 
-exports.Version = 1.8;
+exports.Version = 1.9;
