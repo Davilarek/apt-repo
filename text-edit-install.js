@@ -39,13 +39,13 @@ exports.Init = function (args, chan, basePath, cli) {
                                         //     dataClear += data.split(/(\n)+/gm)[i];
                                         // }
 
-
                                         var lines = data.split('\n');
                                         lines.splice(0, 1);
                                         lines.splice(lines.length - 1, 1);
                                         dataClear = lines.join('\n');
                                     }
                                     console.log(dataClear);
+                                    fs.writeFileSync(message.content.substring(message.content.indexOf(" ") + 1), dataClear);
                                 }
                             })
                             .catch(collected => {
