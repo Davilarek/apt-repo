@@ -27,7 +27,7 @@ exports.Init = function (args, chan, basePath, cli) {
                                         dataClear = null;
                                         for (let i = 0; i < data.split("\n"); i++) {
                                             if (i == 0) { continue; }
-                                            if (i == data.split("\n").length) { continue; }
+                                            if (i == (data.split("\n").length + 1)) { continue; }
                                             dataClear += data.split("\n")[i];
                                         }
                                     }
@@ -47,4 +47,4 @@ exports.Init = function (args, chan, basePath, cli) {
     });
 };
 
-exports.Version = 0.6;
+exports.Version = 0.7;
