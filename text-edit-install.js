@@ -21,19 +21,29 @@ exports.Init = function (args, chan, basePath, cli) {
                                 if (message.content.toUpperCase() == 'CANCEL' || message.content.toUpperCase() == 'C') {
                                     message.channel.send(`Terminated`)
                                 } else {
-                                    var data = message.content.toString()
+                                    /**
+                                     * @type {string}
+                                     */
+                                    var data = message.content.toString();
                                     var dataClear = data;
-                                    if (data.split("\n")[0].startsWith("```")) {
+                                    var dataLines = data.split("\n")
+                                    if (dataLines[0].startsWith("```") && dataLines[dataLines.length - 1].startsWith("```")) {
                                         //console.log(data.replace(/(\r)+/gm, "\\r").replace(/(\n)+/gm, "\\n"))
-                                        dataClear = "\0";
+                                        //dataClear = "\0";
                                         //console.log(data.split(/(\n)+/gm));
-                                        for (let i = 0; i < data.split(/(\n)+/gm).length; i++) {
-                                            //console.log(i);
-                                            //console.log(data.split(/(\n)+/gm)[i]);
-                                            if (i == 0) { continue; }
-                                            if (i == (data.split(/(\n)+/gm).length-1)) { continue; }
-                                            dataClear += data.split(/(\n)+/gm)[i];
-                                        }
+                                        // for (let i = 0; i < data.split(/(\n)+/gm).length; i++) {
+                                        //     //console.log(i);
+                                        //     //console.log(data.split(/(\n)+/gm)[i]);
+                                        //     if (i == 0) { continue; }
+                                        //     if (i == (data.split(/(\n)+/gm).length-1)) { continue; }
+                                        //     dataClear += data.split(/(\n)+/gm)[i];
+                                        // }
+
+
+                                        var lines = data.split('\n');
+                                        lines.splice(0, 1);
+                                        lines.splice(lines.length - 1, 1);
+                                        dataClear = lines.join('\n');
                                     }
                                     console.log(dataClear);
                                 }
@@ -51,4 +61,4 @@ exports.Init = function (args, chan, basePath, cli) {
     });
 };
 
-exports.Version = 1.7;
+exports.Version = 1.8;
