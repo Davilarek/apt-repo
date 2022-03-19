@@ -38,4 +38,4 @@ exports.Init = function (args, chan, basePath, cli) {
     });
 };
 
-exports.Version = 0.3;
+exports.Version = 0.4;
