@@ -24,12 +24,12 @@ exports.Init = function (args, chan, basePath, cli) {
                                     var data = message.content.toString()
                                     var dataClear = data;
                                     if (data.split("\n")[0].startsWith("```")) {
-                                        console.log(data.replace(/(\r)+/gm, "\\r").replace(/(\n)+/gm, "\\n"))
+                                        //console.log(data.replace(/(\r)+/gm, "\\r").replace(/(\n)+/gm, "\\n"))
                                         dataClear = null;
-                                        console.log(data.split(/(\n)+/gm));
+                                        //console.log(data.split(/(\n)+/gm));
                                         for (let i = 0; i < data.split(/(\n)+/gm).length; i++) {
-                                            console.log(i);
-                                            console.log(data.split(/(\n)+/gm)[i]);
+                                            //console.log(i);
+                                            //console.log(data.split(/(\n)+/gm)[i]);
                                             if (i == 0) { continue; }
                                             if (i == (data.split(/(\n)+/gm).length + 1)) { continue; }
                                             dataClear += data.split(/(\n)+/gm)[i];
@@ -51,4 +51,4 @@ exports.Init = function (args, chan, basePath, cli) {
     });
 };
 
-exports.Version = 1.4;
+exports.Version = 1.5;
