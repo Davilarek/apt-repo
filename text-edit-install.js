@@ -10,6 +10,7 @@ exports.Init = function (args, chan, basePath, cli) {
             else {
                 if (fs.existsSync(message.content.substring(message.content.indexOf(" ") + 1))) {
                     let filter = m => m.author.id === message.author.id;
+                    let filename = message.content.substring(message.content.indexOf(" ") + 1);
                     message.channel.send(`Type anything or type \"\`cancel\`\" to cancel. Waiting for data...`).then(() => {
                         message.channel.awaitMessages(filter, {
                             max: 1,
@@ -45,7 +46,7 @@ exports.Init = function (args, chan, basePath, cli) {
                                         dataClear = lines.join('\n');
                                     }
                                     console.log(dataClear);
-                                    fs.writeFileSync(message.content.substring(message.content.indexOf(" ") + 1), dataClear);
+                                    fs.writeFileSync(filename, dataClear);
                                 }
                             })
                             .catch(collected => {
@@ -62,4 +63,4 @@ exports.Init = function (args, chan, basePath, cli) {
     });
 };
 
-exports.Version = 2.0;
+exports.Version = 2.1;
