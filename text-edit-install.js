@@ -4,7 +4,7 @@ exports.Init = function (args, chan, basePath, cli) {
             const fs = require('fs');
             const path = require('path');
             const ENV_VAR_DISABLED_FOLDERS = fs.readFileSync(basePath + path.sep + "VirtualDrive" + path.sep + "dir.cfg").toString().split("\n");
-            if (!path.resolve(message.content.substring(message.content.indexOf(" ") + 1)).includes("VirtualDrive") || message.content.substring(contextMsg.content.indexOf(" ") + 1).includes("VirtualDrive") || ENV_VAR_DISABLED_FOLDERS.includes((path.basename(path.resolve(message.content.substring(message.content.indexOf(" ") + 1)))))) {
+            if (!path.resolve(message.content.substring(message.content.indexOf(" ") + 1)).includes("VirtualDrive") || message.content.substring(message.content.indexOf(" ") + 1).includes("VirtualDrive") || ENV_VAR_DISABLED_FOLDERS.includes((path.basename(path.resolve(message.content.substring(message.content.indexOf(" ") + 1)))))) {
                 message.channel.send("Error: cannot access this path.");
             }
             else {
@@ -37,4 +37,4 @@ exports.Init = function (args, chan, basePath, cli) {
     });
 };
 
-exports.Version = 0.2;
+exports.Version = 0.3;
