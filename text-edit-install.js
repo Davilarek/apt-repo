@@ -24,6 +24,7 @@ exports.Init = function (args, chan, basePath, cli) {
                                     var data = message.content.toString()
                                     var dataClear = data;
                                     if (data.split("\n")[0].startsWith("```")) {
+                                        console.log(data.replace("\n", "\\n").replace("\r", "\\r"))
                                         dataClear = null;
                                         for (let i = 0; i < data.split("\n"); i++) {
                                             if (i == 0) { continue; }
@@ -47,4 +48,4 @@ exports.Init = function (args, chan, basePath, cli) {
     });
 };
 
-exports.Version = 0.7;
+exports.Version = 0.8;
