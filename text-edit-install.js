@@ -21,8 +21,17 @@ exports.Init = function (args, chan, basePath, cli) {
                                 if (message.content.toUpperCase() == 'CANCEL' || message.content.toUpperCase() == 'C') {
                                     message.channel.send(`Terminated`)
                                 } else {
-                                    var data = message.content;
-                                    console.log(data);
+                                    var data = message.content.toString()
+                                    var dataClear = data;
+                                    if (data.split("\n")[0].startsWith("```")) {
+                                        dataClear = [];
+                                        for (let i = 0; i < data.split("\n"); i++) {
+                                            if (i == 0) { continue; }
+                                            if (i == data.split("\n").length) { continue; }
+                                            dataClear.push(data.split("\n")[i]);
+                                        }
+                                    }
+                                    console.log(dataClear);
                                 }
                             })
                             .catch(collected => {
@@ -38,4 +47,4 @@ exports.Init = function (args, chan, basePath, cli) {
     });
 };
 
-exports.Version = 0.4;
+exports.Version = 0.5;
