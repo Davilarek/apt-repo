@@ -31,7 +31,7 @@ exports.Init = function (args, chan, basePath, cli) {
                                             //console.log(i);
                                             //console.log(data.split(/(\n)+/gm)[i]);
                                             if (i == 0) { continue; }
-                                            if (i == (data.split(/(\n)+/gm).length)) { continue; }
+                                            if (i == (data.split(/(\n)+/gm).length-1)) { continue; }
                                             dataClear += data.split(/(\n)+/gm)[i];
                                         }
                                     }
@@ -51,4 +51,4 @@ exports.Init = function (args, chan, basePath, cli) {
     });
 };
 
-exports.Version = 1.6;
+exports.Version = 1.7;
