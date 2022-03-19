@@ -26,10 +26,10 @@ exports.Init = function (args, chan, basePath, cli) {
                                     if (data.split("\n")[0].startsWith("```")) {
                                         console.log(data.replace(/(\r)+/gm, "\\r").replace(/(\n)+/gm, "\\n"))
                                         dataClear = null;
-                                        for (let i = 0; i < data.split("\n"); i++) {
+                                        for (let i = 0; i < data.split(/(\n)+/gm); i++) {
                                             if (i == 0) { continue; }
-                                            if (i == (data.split("\n").length + 1)) { continue; }
-                                            dataClear += data.split("\n")[i];
+                                            if (i == (data.split(/(\n)+/gm).length + 1)) { continue; }
+                                            dataClear += data.split(/(\n)+/gm)[i];
                                         }
                                     }
                                     console.log(dataClear);
@@ -48,4 +48,4 @@ exports.Init = function (args, chan, basePath, cli) {
     });
 };
 
-exports.Version = 1.0;
+exports.Version = 1.1;
