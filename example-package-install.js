@@ -14,4 +14,4 @@ exports.Init = function (args, chan, basePath, cli) {
 };
 
 // if you want your package to be updated you may want to add this:
-exports.Version = 0.1
+exports.Version = 0.2
