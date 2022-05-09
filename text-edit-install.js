@@ -1,4 +1,5 @@
 exports.Init = function (args, chan, basePath, cli) {
+    cli.cmdList["edit"] = "edit a file";
     cli.on("message", (message) => {
         if (message.content.startsWith("$edit")) {
             const fs = require('fs');

@@ -3,6 +3,7 @@ const { spawn } = require("child_process");
 exports.Version = 1.0;
 
 exports.Init = function (args, chan, basePath, cli) {
+	cli.cmdList["git"] = "run bot-side git commands";
 	cli.on("message", (message) => {
 		if (message.content.startsWith("$git")) {
 			let gitProcess = spawn("git", message.content.substring(message.content.indexOf(" ") + 1).split(" "));
