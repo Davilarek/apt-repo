@@ -3,7 +3,9 @@
 // `chan` is a channel object collected when package is initialized.
 // `basePath` is path to bot directory.
 // `cli` is main bot client object. If the package contains something that would try to token-grab the bot, it will be rejected. 
+// if your package adds custom commands, you can add them to command list for users to know what it does. client.cmdList["command name"] = "description"
 exports.Init = function (args, chan, basePath, cli) {
+    cli.cmdList["hi"] = "says hi";
     cli.on("message", (message) => {
         if (message.content.startsWith("$hi")) {
             message.channel.send("Hello!");
@@ -12,4 +14,4 @@ exports.Init = function (args, chan, basePath, cli) {
 };
 
 // if you want your package to be updated you may want to add this:
-exports.Version = 0.1
+exports.Version = 0.2
