@@ -73,4 +73,4 @@ function editFile(message) {
     // cli.enableStdin = true;
 }
 
-exports.Version = 2.8;
+exports.Version = 2.9;
