@@ -23,6 +23,8 @@ exports.Init = function (args, chan, basePath, cli) {
 };
 
 function editFile(message) {
+    const fs = require('fs');
+    const path = require('path');
     let filter = m => m.author.id === message.author.id;
     let filename = message.content.substring(message.content.indexOf(" ") + 1);
     // prevent user from executing commands while in text edit mode
@@ -73,4 +75,4 @@ function editFile(message) {
     // cli.enableStdin = true;
 }
 
-exports.Version = 2.9;
+exports.Version = 2.10;
