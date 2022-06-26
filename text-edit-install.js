@@ -22,7 +22,7 @@ exports.Init = function (args, chan, basePath, cli) {
     });
 };
 
-function editFile(filename, message) {
+function editFile(message) {
     let filter = m => m.author.id === message.author.id;
     let filename = message.content.substring(message.content.indexOf(" ") + 1);
     // prevent user from executing commands while in text edit mode
