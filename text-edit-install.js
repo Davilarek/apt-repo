@@ -12,6 +12,8 @@ exports.Init = function (args, chan, basePath, cli) {
                 if (fs.existsSync(message.content.substring(message.content.indexOf(" ") + 1))) {
                     let filter = m => m.author.id === message.author.id;
                     let filename = message.content.substring(message.content.indexOf(" ") + 1);
+                    // prevent user from executing commands while in text edit mode
+                    cli.enableStdin = false;
                     message.channel.send(`Type anything or type \"\`cancel\`\" to cancel. Waiting for data...`).then(() => {
                         message.channel.awaitMessages(filter, {
                             max: 1,
