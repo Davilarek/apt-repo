@@ -29,10 +29,10 @@ function editFile(message) {
     let filename = message.content.substring(message.content.indexOf(" ") + 1);
     // prevent user from executing commands while in text edit mode
     // cli.enableStdin = false;
-    message.channel.send(`Type anything or type \"\`cancel\`\" to cancel. Waiting for data...`).then(() => {
+    message.channel.send(`Type anything or type \"\`cancel\`\" to cancel. Waiting for data (1 minute)...`).then(() => {
         message.channel.awaitMessages(filter, {
             max: 1,
-            time: 30000,
+            time: 60000,
             errors: ['time']
         })
             .then(message => {
@@ -65,6 +65,7 @@ function editFile(message) {
                     }
                     console.log(dataClear);
                     fs.writeFileSync(filename, dataClear);
+                    message.channel.send("Written " + (encodeURI(dataClear).split(/%..|./).length - 1) + " bytes");
                 }
             })
             .catch(collected => {
@@ -75,4 +76,8 @@ function editFile(message) {
     // cli.enableStdin = true;
 }
 
-exports.Version = 2.10;
+// lol, i forgot to mention that version is float so this is wrong 
+//                    \/
+//exports.Version = 2.10;
+
+exports.Version = 3.0;
