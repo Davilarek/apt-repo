@@ -4,29 +4,43 @@ exports.Init = function (args, chan, basePath, cli) {
         if (message.content.startsWith("$edit")) {
             const fs = require('fs');
             const path = require('path');
+
+            let pathCorrected = message.content.substring(message.content.indexOf(" ") + 1);
+
+            if (pathCorrected == "$edit") { return; }
+
+            for (let i = 0; i < Object.keys(cli.listEnv).length; i++) {
+                pathCorrected = replaceAll(pathCorrected, Object.keys(cli.listEnv)[i], cli.listEnv[Object.keys(ENV_VAR_LIST)[i]]);
+            }
+
+            if (pathCorrected.startsWith("/")) {
+                pathCorrected = pathCorrected.replace("/", basePath + path.sep + "VirtualDrive" + path.sep);
+            }
+
+
             const ENV_VAR_DISABLED_FOLDERS = fs.readFileSync(basePath + path.sep + "VirtualDrive" + path.sep + "dir.cfg").toString().split("\n");
-            if (!path.resolve(message.content.substring(message.content.indexOf(" ") + 1)).includes("VirtualDrive") || message.content.substring(message.content.indexOf(" ") + 1).includes("VirtualDrive") || ENV_VAR_DISABLED_FOLDERS.includes((path.basename(path.resolve(message.content.substring(message.content.indexOf(" ") + 1)))))) {
+            if (!path.resolve(pathCorrected).includes("VirtualDrive") || pathCorrected.includes("VirtualDrive") || ENV_VAR_DISABLED_FOLDERS.includes((path.basename(path.resolve(pathCorrected))))) {
                 message.channel.send("Error: cannot access this path.");
             }
             else {
-                if (fs.existsSync(message.content.substring(message.content.indexOf(" ") + 1))) {
-                    editFile(message);
+                if (fs.existsSync(pathCorrected)) {
+                    editFile(message, pathCorrected);
                 }
                 else {
                     message.channel.send("Target file doesn't exist. Creating one for you...");
-                    cli.executeCommand(cli.fakeMessageCreator("$touch " + message.content.substring(message.content.indexOf(" ") + 1)))
-                    editFile(message);
+                    cli.executeCommand(cli.fakeMessageCreator("$touch " + pathCorrected))
+                    editFile(message, pathCorrected);
                 }
             }
         }
     });
 };
 
-function editFile(message) {
+function editFile(message, pathCorrected) {
     const fs = require('fs');
     const path = require('path');
     let filter = m => m.author.id === message.author.id;
-    let filename = message.content.substring(message.content.indexOf(" ") + 1);
+    let filename = pathCorrected;
     // prevent user from executing commands while in text edit mode
     // cli.enableStdin = false;
     message.channel.send(`Type anything or type \"\`cancel\`\" to cancel. Waiting for data (1 minute)...`).then(() => {
@@ -80,4 +94,4 @@ function editFile(message) {
 //                    \/
 //exports.Version = 2.10;
 
-exports.Version = 3.0;
+exports.Version = 3.1;
