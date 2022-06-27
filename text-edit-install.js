@@ -1,41 +1,43 @@
 exports.Init = function (args, chan, basePath, cli) {
     cli.cmdList["edit"] = "edit a file";
-    cli.on("message", (message) => {
-        if (message.content.startsWith("$edit")) {
-            const fs = require('fs');
-            const path = require('path');
+    // cli.on("message", (message) => {
+    // if (message.content.startsWith("$edit")) {
+    cli.registerExternalCommand("$edit", (message) => {
+        const fs = require('fs');
+        const path = require('path');
 
-            let pathCorrected = message.content.substring(message.content.indexOf(" ") + 1);
+        let pathCorrected = message.content.substring(message.content.indexOf(" ") + 1);
 
-            if (pathCorrected == "$edit") { return; }
+        if (pathCorrected == "$edit") { return; }
 
-            for (let i = 0; i < Object.keys(cli.listEnv).length; i++) {
-                pathCorrected = cli.coolTools.replaceAll(pathCorrected, Object.keys(cli.listEnv)[i], cli.listEnv[Object.keys(cli.listEnv)[i]]);
-            }
+        for (let i = 0; i < Object.keys(cli.listEnv).length; i++) {
+            pathCorrected = cli.coolTools.replaceAll(pathCorrected, Object.keys(cli.listEnv)[i], cli.listEnv[Object.keys(cli.listEnv)[i]]);
+        }
 
-            if (pathCorrected.startsWith("/")) {
-                pathCorrected = pathCorrected.replace("/", basePath + path.sep + "VirtualDrive" + path.sep);
-            }
+        if (pathCorrected.startsWith("/")) {
+            pathCorrected = pathCorrected.replace("/", basePath + path.sep + "VirtualDrive" + path.sep);
+        }
 
-            // console.log(pathCorrected);
+        // console.log(pathCorrected);
 
-            const ENV_VAR_DISABLED_FOLDERS = fs.readFileSync(basePath + path.sep + "VirtualDrive" + path.sep + "dir.cfg").toString().split("\n");
-            if (!path.resolve(pathCorrected).includes("VirtualDrive") || ENV_VAR_DISABLED_FOLDERS.includes((path.basename(path.resolve(pathCorrected))))) {
-                // if (!path.resolve(pathCorrected).includes("VirtualDrive") || pathCorrected.includes("VirtualDrive") || ENV_VAR_DISABLED_FOLDERS.includes((path.basename(path.resolve(pathCorrected))))) {
-                message.channel.send("Error: cannot access this path.");
+        const ENV_VAR_DISABLED_FOLDERS = fs.readFileSync(basePath + path.sep + "VirtualDrive" + path.sep + "dir.cfg").toString().split("\n");
+        if (!path.resolve(pathCorrected).includes("VirtualDrive") || ENV_VAR_DISABLED_FOLDERS.includes((path.basename(path.resolve(pathCorrected))))) {
+            // if (!path.resolve(pathCorrected).includes("VirtualDrive") || pathCorrected.includes("VirtualDrive") || ENV_VAR_DISABLED_FOLDERS.includes((path.basename(path.resolve(pathCorrected))))) {
+            message.channel.send("Error: cannot access this path.");
+        }
+        else {
+            if (fs.existsSync(pathCorrected)) {
+                editFile(message, pathCorrected, cli);
             }
             else {
-                if (fs.existsSync(pathCorrected)) {
-                    editFile(message, pathCorrected, cli);
-                }
-                else {
-                    message.channel.send("Target file doesn't exist. Creating one for you...");
-                    cli.executeCommand(cli.fakeMessageCreator("$touch " + pathCorrected))
-                    editFile(message, pathCorrected, cli);
-                }
+                message.channel.send("Target file doesn't exist. Creating one for you...");
+                cli.executeCommand(cli.fakeMessageCreator("$touch " + pathCorrected))
+                editFile(message, pathCorrected, cli);
             }
         }
-    });
+    })
+    // }
+    // });
 };
 
 function editFile(message, pathCorrected, cli) {
@@ -103,4 +105,4 @@ function editFile(message, pathCorrected, cli) {
 //                    \/
 //exports.Version = 2.10;
 
-exports.Version = 3.6;
+exports.Version = 4.0;

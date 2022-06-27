@@ -6,12 +6,10 @@
 // if your package adds custom commands, you can add them to command list for users to know what it does. client.cmdList["command name"] = "description"
 exports.Init = function (args, chan, basePath, cli) {
     cli.cmdList["hi"] = "says hi";
-    cli.on("message", (message) => {
-        if (message.content.startsWith("$hi")) {
-            message.channel.send("Hello!");
-        }
+    cli.registerExternalCommand("$hi", (message) => {
+        message.channel.send("Hello!");
     });
 };
 
 // if you want your package to be updated you may want to add this:
-exports.Version = 0.2
+exports.Version = 0.3
