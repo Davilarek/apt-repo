@@ -10,39 +10,41 @@ exports.Init = function (args, chan, basePath, cli) {
             if (pathCorrected == "$edit") { return; }
 
             for (let i = 0; i < Object.keys(cli.listEnv).length; i++) {
-                pathCorrected = replaceAll(pathCorrected, Object.keys(cli.listEnv)[i], cli.listEnv[Object.keys(ENV_VAR_LIST)[i]]);
+                pathCorrected = cli.coolTools.replaceAll(pathCorrected, Object.keys(cli.listEnv)[i], cli.listEnv[Object.keys(cli.listEnv)[i]]);
             }
 
             if (pathCorrected.startsWith("/")) {
                 pathCorrected = pathCorrected.replace("/", basePath + path.sep + "VirtualDrive" + path.sep);
             }
 
+            // console.log(pathCorrected);
 
             const ENV_VAR_DISABLED_FOLDERS = fs.readFileSync(basePath + path.sep + "VirtualDrive" + path.sep + "dir.cfg").toString().split("\n");
-            if (!path.resolve(pathCorrected).includes("VirtualDrive") || pathCorrected.includes("VirtualDrive") || ENV_VAR_DISABLED_FOLDERS.includes((path.basename(path.resolve(pathCorrected))))) {
+            if (!path.resolve(pathCorrected).includes("VirtualDrive") || ENV_VAR_DISABLED_FOLDERS.includes((path.basename(path.resolve(pathCorrected))))) {
+                // if (!path.resolve(pathCorrected).includes("VirtualDrive") || pathCorrected.includes("VirtualDrive") || ENV_VAR_DISABLED_FOLDERS.includes((path.basename(path.resolve(pathCorrected))))) {
                 message.channel.send("Error: cannot access this path.");
             }
             else {
                 if (fs.existsSync(pathCorrected)) {
-                    editFile(message, pathCorrected);
+                    editFile(message, pathCorrected, cli);
                 }
                 else {
                     message.channel.send("Target file doesn't exist. Creating one for you...");
                     cli.executeCommand(cli.fakeMessageCreator("$touch " + pathCorrected))
-                    editFile(message, pathCorrected);
+                    editFile(message, pathCorrected, cli);
                 }
             }
         }
     });
 };
 
-function editFile(message, pathCorrected) {
+function editFile(message, pathCorrected, cli) {
     const fs = require('fs');
     const path = require('path');
     let filter = m => m.author.id === message.author.id;
     let filename = pathCorrected;
     // prevent user from executing commands while in text edit mode
-    // cli.enableStdin = false;
+    cli.enableStdin = false;
     message.channel.send(`Type anything or type \"\`cancel\`\" to cancel. Waiting for data (1 minute)...`).then(() => {
         message.channel.awaitMessages(filter, {
             max: 1,
@@ -53,6 +55,7 @@ function editFile(message, pathCorrected) {
                 message = message.first()
                 if (message.content.toUpperCase() == 'CANCEL' || message.content.toUpperCase() == 'C') {
                     message.channel.send(`Terminated`)
+                    cli.enableStdin = true;
                 } else {
                     /**
                      * @type {string}
@@ -80,13 +83,19 @@ function editFile(message, pathCorrected) {
                     console.log(dataClear);
                     fs.writeFileSync(filename, dataClear);
                     message.channel.send("Written " + (encodeURI(dataClear).split(/%..|./).length - 1) + " bytes");
+                    cli.enableStdin = true;
                 }
             })
             .catch(collected => {
                 console.log(collected);
                 message.channel.send('Timeout');
+                cli.enableStdin = true;
             });
     })
+
+    // setTimeout(() => {
+    //     cli.enableStdin = true;
+    // }, 2000)
     // cli.enableStdin = true;
 }
 
@@ -94,4 +103,4 @@ function editFile(message, pathCorrected) {
 //                    \/
 //exports.Version = 2.10;
 
-exports.Version = 3.1;
+exports.Version = 3.6;
