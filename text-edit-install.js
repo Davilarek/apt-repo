@@ -2,6 +2,9 @@ exports.Init = function (args, chan, basePath, cli) {
     cli.cmdList["edit"] = "edit a file";
     // cli.on("message", (message) => {
     // if (message.content.startsWith("$edit")) {
+
+    // console.log(cli.token); // undefined :)
+
     cli.registerExternalCommand("$edit", (message, variableList) => {
         const fs = require('fs');
         const path = require('path');
