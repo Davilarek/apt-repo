@@ -2,16 +2,21 @@ exports.Init = function (args, chan, basePath, cli) {
     cli.cmdList["edit"] = "edit a file";
     // cli.on("message", (message) => {
     // if (message.content.startsWith("$edit")) {
-    cli.registerExternalCommand("$edit", (message) => {
+
+    // console.log(cli.token); // undefined :)
+
+    cli.registerExternalCommand("$edit", (message, variableList) => {
         const fs = require('fs');
         const path = require('path');
 
         let pathCorrected = message.content.substring(message.content.indexOf(" ") + 1);
 
+        let localVarList = { ...cli.listEnv, ...variableList };
+
         if (pathCorrected == "$edit") { return; }
 
-        for (let i = 0; i < Object.keys(cli.listEnv).length; i++) {
-            pathCorrected = cli.coolTools.replaceAll(pathCorrected, Object.keys(cli.listEnv)[i], cli.listEnv[Object.keys(cli.listEnv)[i]]);
+        for (let i = 0; i < Object.keys(localVarList).length; i++) {
+            pathCorrected = cli.coolTools.replaceAll(pathCorrected, Object.keys(localVarList)[i], localVarList[Object.keys(localVarList)[i]]);
         }
 
         if (pathCorrected.startsWith("/")) {
@@ -105,4 +110,4 @@ function editFile(message, pathCorrected, cli) {
 //                    \/
 //exports.Version = 2.10;
 
-exports.Version = 4.0;
+exports.Version = 4.1;
