@@ -110,4 +110,4 @@ function editFile(message, pathCorrected, cli) {
 //                    \/
 //exports.Version = 2.10;
 
-exports.Version = 4.1;
+exports.Version = "4.1";
