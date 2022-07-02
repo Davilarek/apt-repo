@@ -212,4 +212,4 @@ function appendFile(message, pathCorrected, cli) {
 //                    \/
 //exports.Version = 2.10;
 
-exports.Version = "4.3";
+exports.Version = "4.4";

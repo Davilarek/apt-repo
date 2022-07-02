@@ -1,6 +1,6 @@
 const { spawn } = require("child_process");
 
-exports.Version = "1.3";
+exports.Version = "1.4";
 
 exports.Init = function (args, chan, basePath, cli) {
 	// cli.cmdList["git"] = "run bot-side git commands";
