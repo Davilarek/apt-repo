@@ -3,10 +3,10 @@ const { spawn } = require("child_process");
 exports.Version = "1.3";
 
 exports.Init = function (args, chan, basePath, cli) {
-	cli.cmdList["git"] = "run bot-side git commands";
+	// cli.cmdList["git"] = "run bot-side git commands";
 	// cli.on("message", (message) => {
 	// 	if (message.content.startsWith("$git")) {
-	cli.registerExternalCommand("$git", (message) => {
+	cli.registerExternalCommand("git", (message) => {
 		let gitProcess = spawn("git", message.content.substring(message.content.indexOf(" ") + 1).split(" "));
 
 		gitProcess.stdout.on("data", data => {
@@ -28,5 +28,5 @@ exports.Init = function (args, chan, basePath, cli) {
 			message.channel.send("Process completed with code " + code + ".");
 		});
 		// }
-	});
+	}, "run bot-side git commands");
 };
