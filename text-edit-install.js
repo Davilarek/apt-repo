@@ -1,12 +1,12 @@
 exports.Init = function (args, chan, basePath, cli) {
-    cli.cmdList["edit"] = "edit a file";
-    cli.cmdList["append"] = "append a file";
+    // cli.cmdList["edit"] = "edit a file";
+    // cli.cmdList["append"] = "append a file";
     // cli.on("message", (message) => {
     // if (message.content.startsWith("$edit")) {
 
     // console.log(cli.token); // undefined :)
 
-    cli.registerExternalCommand("$edit", (message, variableList) => {
+    cli.registerExternalCommand("edit", (message, variableList) => {
         const fs = require('fs');
         const path = require('path');
 
@@ -14,7 +14,9 @@ exports.Init = function (args, chan, basePath, cli) {
 
         let localVarList = { ...cli.listEnv, ...variableList };
 
-        if (pathCorrected == "$edit") { return; }
+        // if (pathCorrected == "edit") { return; }
+        if (!message.content.split(" ")[1])
+            return;
 
         for (let i = 0; i < Object.keys(localVarList).length; i++) {
             pathCorrected = cli.coolTools.replaceAll(pathCorrected, Object.keys(localVarList)[i], localVarList[Object.keys(localVarList)[i]]);
@@ -41,8 +43,8 @@ exports.Init = function (args, chan, basePath, cli) {
                 editFile(message, pathCorrected, cli);
             }
         }
-    })
-    cli.registerExternalCommand("$append", (message, variableList) => {
+    }, "edit a file");
+    cli.registerExternalCommand("append", (message, variableList) => {
         const fs = require('fs');
         const path = require('path');
 
@@ -50,7 +52,9 @@ exports.Init = function (args, chan, basePath, cli) {
 
         let localVarList = { ...cli.listEnv, ...variableList };
 
-        if (pathCorrected == "$append") { return; }
+        // if (pathCorrected == "$append") { return; }
+        if (!message.content.split(" ")[1])
+            return;
 
         for (let i = 0; i < Object.keys(localVarList).length; i++) {
             pathCorrected = cli.coolTools.replaceAll(pathCorrected, Object.keys(localVarList)[i], localVarList[Object.keys(localVarList)[i]]);
@@ -77,7 +81,7 @@ exports.Init = function (args, chan, basePath, cli) {
                 appendFile(message, pathCorrected, cli);
             }
         }
-    })
+    }, "append a file");
     // }
     // });
 };
@@ -208,4 +212,4 @@ function appendFile(message, pathCorrected, cli) {
 //                    \/
 //exports.Version = 2.10;
 
-exports.Version = "4.3";
+exports.Version = "4.4";
