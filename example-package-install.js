@@ -11,5 +11,10 @@ exports.Init = function (args, chan, basePath, cli) {
     }, "says hi");
 };
 
+// called when package is updated.
+exports.OnUpdate = function (args, chan) {
+    chan.send("Hello! I've been updated!");
+}
+
 // if you want your package to be updated you may want to add this:
-exports.Version = "0.4"
+exports.Version = "0.5"
