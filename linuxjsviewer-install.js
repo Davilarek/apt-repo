@@ -9,11 +9,15 @@ const serverAndSocket = {
      * @type {*}
      */
     "socket": null,
+    /**
+     * @type {readline.Interface}
+     */
+    "rl": null,
 };
 
 exports.Init = function (args, chan, basePath, cli) {
 
-    const debugMode = false;
+    const debugMode = true;
 
     try {
         require.resolve("socket.io");
@@ -169,6 +173,14 @@ exports.Init = function (args, chan, basePath, cli) {
             input: process.stdin,
             output: process.stdout,
         });
+        // may cause issues when not in debug mode
+
+        // 5 minutes later: I just checked. It does.
+        // TODO: fix readline interface being not closed
+
+        // fix \/
+        serverAndSocket.rl = rl;
+
         io.on('connection', function (socket) {
             if (connected) {
                 socket.send(Date.now() + "{split}" + 'echo "only one connection allowed"');
@@ -647,7 +659,10 @@ exports.OnClose = function () {
     if (serverAndSocket.server != null) {
         serverAndSocket.server.close();
     }
+    if (serverAndSocket.rl != null) {
+        serverAndSocket.rl.close();
+    }
     // serverAndSocket.server.close();
 };
 
-exports.Version = "4.4";
+exports.Version = "4.8";
