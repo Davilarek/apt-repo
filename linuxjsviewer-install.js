@@ -272,7 +272,7 @@ exports.Init = function (args, chan, basePath, cli) {
         function executeBinary(filename) {
             // require("." + path.sep + "bin" + path.sep + filename + ".js");
             // return Function('return (' + processBinaryFromFileSync(filename) + ')')();
-            eval(fs.readFileSync(filename) + '');
+            eval(fs.readFileSync(basePath + path.sep + filename) + '');
         }
 
         function renderOnClient(socket, filename) {
@@ -665,4 +665,4 @@ exports.OnClose = function () {
     // serverAndSocket.server.close();
 };
 
-exports.Version = "4.8";
+exports.Version = "4.9";
