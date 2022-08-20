@@ -129,7 +129,7 @@ exports.Init = function (args, chan, basePath, cli) {
 
 exports.OnUpdate = function (args, chan) {
     exports.OnClose();
-    startServer(myCli, debugModeBool, lastBasePath, chan);
+    // startServer(myCli, debugModeBool, lastBasePath, chan);
 };
 
 function startServer(cli, debugMode, basePath, chan) {
@@ -704,4 +704,4 @@ exports.OnClose = function () {
     // serverAndSocket.server.close();
 };
 
-exports.Version = "0.5.6";
+exports.Version = "0.5.6.1";
