@@ -679,4 +679,4 @@ exports.OnClose = function () {
     // serverAndSocket.server.close();
 };
 
-exports.Version = "0.5.3";
+exports.Version = "0.5.4";
