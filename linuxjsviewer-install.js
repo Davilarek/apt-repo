@@ -169,7 +169,7 @@ exports.Init = function (args, chan, basePath, cli) {
 
             for (let index = 0; index < consoleListeners.length; index++) {
                 const element = consoleListeners[index];
-                element();
+                element(this);
             }
         };
 
