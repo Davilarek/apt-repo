@@ -160,6 +160,19 @@ exports.Init = function (args, chan, basePath, cli) {
         // let cli = {};
         // cli.guiEvents = em;
 
+        /**
+         * @type {Array<Function>}
+         */
+        let consoleListeners = [];
+        cli.commandHistory.push = function () {
+            Array.prototype.push.apply(this, arguments);
+
+            for (let index = 0; index < consoleListeners.length; index++) {
+                const element = consoleListeners[index];
+                element();
+            }
+        };
+
         let desktop = {
             /**
              * @type {Object.<string, TaskbarTask>}
@@ -382,6 +395,7 @@ exports.Init = function (args, chan, basePath, cli) {
                             renderTaskInTaskbar(socket, { windowId: data.split(" ")[2], windowTitle: windowTitle, windowIcon: "" });
                             if (debugMode) console.log(Object.keys(desktop.windows).length.toString());
                             getXMLData(socket, data.split(" ")[2]).then(function (data2) {
+                                console.log(desktop.windows);
                                 desktop.windows[windowTitle + (Object.keys(desktop.windows).length - 1).toString()].setHTMLData(data2);
                                 // setTimeout(() => {
                                 //     renameDuplicateWindows(socket, desktop.windows);
@@ -665,4 +679,4 @@ exports.OnClose = function () {
     // serverAndSocket.server.close();
 };
 
-exports.Version = "4.9";
+exports.Version = "0.5.3";
