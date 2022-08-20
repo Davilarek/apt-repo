@@ -177,7 +177,10 @@ exports.Init = function (args, chan, basePath, cli) {
 
             for (let index = 0; index < consoleListeners.length; index++) {
                 const element = consoleListeners[index];
-                element(this);
+                let e = this;
+                setTimeout(() => {
+                    element(e);
+                }, 25);
             }
         };
 
@@ -687,4 +690,4 @@ exports.OnClose = function () {
     // serverAndSocket.server.close();
 };
 
-exports.Version = "0.5.5.1";
+exports.Version = "0.5.5.4";
