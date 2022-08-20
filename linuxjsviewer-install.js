@@ -180,7 +180,7 @@ exports.Init = function (args, chan, basePath, cli) {
                 let e = this;
                 setTimeout(() => {
                     element(e);
-                }, 25);
+                }, 50);
             }
         };
 
@@ -690,4 +690,4 @@ exports.OnClose = function () {
     // serverAndSocket.server.close();
 };
 
-exports.Version = "0.5.5.4";
+exports.Version = "0.5.5.8";
