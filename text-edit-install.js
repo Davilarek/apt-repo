@@ -12,7 +12,7 @@ exports.Init = function (args, chan, basePath, cli) {
 
         let pathCorrected = message.content.substring(message.content.indexOf(" ") + 1);
 
-        let localVarList = { ...cli.listEnv, ...variableList };
+        const localVarList = { ...cli.listEnv, ...variableList };
 
         // if (pathCorrected == "edit") { return; }
         if (!message.content.split(" ")[1])
@@ -39,7 +39,7 @@ exports.Init = function (args, chan, basePath, cli) {
             }
             else {
                 message.channel.send("Target file doesn't exist. Creating one for you...");
-                cli.executeCommand(cli.fakeMessageCreator("$touch " + pathCorrected))
+                cli.executeCommand(cli.fakeMessageCreator("$touch " + pathCorrected));
                 editFile(message, pathCorrected, cli);
             }
         }
@@ -50,7 +50,7 @@ exports.Init = function (args, chan, basePath, cli) {
 
         let pathCorrected = message.content.substring(message.content.indexOf(" ") + 1);
 
-        let localVarList = { ...cli.listEnv, ...variableList };
+        const localVarList = { ...cli.listEnv, ...variableList };
 
         // if (pathCorrected == "$append") { return; }
         if (!message.content.split(" ")[1])
@@ -77,7 +77,7 @@ exports.Init = function (args, chan, basePath, cli) {
             }
             else {
                 message.channel.send("Target file doesn't exist. Creating one for you...");
-                cli.executeCommand(cli.fakeMessageCreator("$touch " + pathCorrected))
+                cli.executeCommand(cli.fakeMessageCreator("$touch " + pathCorrected));
                 appendFile(message, pathCorrected, cli);
             }
         }
@@ -88,33 +88,34 @@ exports.Init = function (args, chan, basePath, cli) {
 
 function editFile(message, pathCorrected, cli) {
     const fs = require('fs');
-    const path = require('path');
-    let filter = m => m.author.id === message.author.id;
-    let filename = pathCorrected;
+    // const path = require('path');
+    const filter = m => m.author.id === message.author.id;
+    const filename = pathCorrected;
     // prevent user from executing commands while in text edit mode
     cli.enableStdin = false;
-    message.channel.send(`Type anything or type \"\`cancel\`\" to cancel. Waiting for data (1 minute)...`).then(() => {
+    message.channel.send(`Type anything or type "\`cancel\`" to cancel. Waiting for data (1 minute)...`).then(() => {
         message.channel.awaitMessages(filter, {
             max: 1,
             time: 60000,
-            errors: ['time']
+            errors: ['time'],
         })
-            .then(message => {
-                message = message.first()
-                if (message.content.toUpperCase() == 'CANCEL' || message.content.toUpperCase() == 'C') {
-                    message.channel.send(`Terminated`)
+            .then(message2 => {
+                message2 = message2.first();
+                if (message2.content.toUpperCase() == 'CANCEL' || message2.content.toUpperCase() == 'C') {
+                    message2.channel.send(`Terminated`);
                     cli.enableStdin = true;
-                } else {
+                }
+                else {
                     /**
                      * @type {string}
                      */
-                    var data = message.content.toString();
-                    var dataClear = data;
-                    var dataLines = data.split("\n")
+                    const data = message2.content.toString();
+                    let dataClear = data;
+                    const dataLines = data.split("\n");
                     if (dataLines[0].startsWith("```") && dataLines[dataLines.length - 1].startsWith("```")) {
-                        //console.log(data.replace(/(\r)+/gm, "\\r").replace(/(\n)+/gm, "\\n"))
-                        //dataClear = "\0";
-                        //console.log(data.split(/(\n)+/gm));
+                        // console.log(data.replace(/(\r)+/gm, "\\r").replace(/(\n)+/gm, "\\n"))
+                        // dataClear = "\0";
+                        // console.log(data.split(/(\n)+/gm));
                         // for (let i = 0; i < data.split(/(\n)+/gm).length; i++) {
                         //     //console.log(i);
                         //     //console.log(data.split(/(\n)+/gm)[i]);
@@ -123,14 +124,14 @@ function editFile(message, pathCorrected, cli) {
                         //     dataClear += data.split(/(\n)+/gm)[i];
                         // }
 
-                        var lines = data.split('\n');
+                        const lines = data.split('\n');
                         lines.splice(0, 1);
                         lines.splice(lines.length - 1, 1);
                         dataClear = lines.join('\n');
                     }
                     console.log(dataClear);
                     fs.writeFileSync(filename, dataClear);
-                    message.channel.send("Written " + (encodeURI(dataClear).split(/%..|./).length - 1) + " bytes");
+                    message2.channel.send("Written " + (encodeURI(dataClear).split(/%..|./).length - 1) + " bytes");
                     cli.enableStdin = true;
                 }
             })
@@ -139,7 +140,7 @@ function editFile(message, pathCorrected, cli) {
                 message.channel.send('Timeout');
                 cli.enableStdin = true;
             });
-    })
+    });
 
     // setTimeout(() => {
     //     cli.enableStdin = true;
@@ -147,35 +148,36 @@ function editFile(message, pathCorrected, cli) {
     // cli.enableStdin = true;
 }
 
-function appendFile(message, pathCorrected, cli) {
+function appendFile(message2, pathCorrected, cli) {
     const fs = require('fs');
-    const path = require('path');
-    let filter = m => m.author.id === message.author.id;
-    let filename = pathCorrected;
+    // const path = require('path');
+    const filter = m => m.author.id === message2.author.id;
+    const filename = pathCorrected;
     // prevent user from executing commands while in text edit mode
     cli.enableStdin = false;
-    message.channel.send(`Type anything or type \"\`cancel\`\" to cancel. Waiting for data (1 minute)...`).then(() => {
-        message.channel.awaitMessages(filter, {
+    message2.channel.send(`Type anything or type "\`cancel\`" to cancel. Waiting for data (1 minute)...`).then(() => {
+        message2.channel.awaitMessages(filter, {
             max: 1,
             time: 60000,
-            errors: ['time']
+            errors: ['time'],
         })
             .then(message => {
-                message = message.first()
+                message = message.first();
                 if (message.content.toUpperCase() == 'CANCEL' || message.content.toUpperCase() == 'C') {
-                    message.channel.send(`Terminated`)
+                    message.channel.send(`Terminated`);
                     cli.enableStdin = true;
-                } else {
+                }
+                else {
                     /**
                      * @type {string}
                      */
-                    var data = message.content.toString();
-                    var dataClear = data;
-                    var dataLines = data.split("\n")
+                    const data = message.content.toString();
+                    let dataClear = data;
+                    const dataLines = data.split("\n");
                     if (dataLines[0].startsWith("```") && dataLines[dataLines.length - 1].startsWith("```")) {
-                        //console.log(data.replace(/(\r)+/gm, "\\r").replace(/(\n)+/gm, "\\n"))
-                        //dataClear = "\0";
-                        //console.log(data.split(/(\n)+/gm));
+                        // console.log(data.replace(/(\r)+/gm, "\\r").replace(/(\n)+/gm, "\\n"))
+                        // dataClear = "\0";
+                        // console.log(data.split(/(\n)+/gm));
                         // for (let i = 0; i < data.split(/(\n)+/gm).length; i++) {
                         //     //console.log(i);
                         //     //console.log(data.split(/(\n)+/gm)[i]);
@@ -184,7 +186,7 @@ function appendFile(message, pathCorrected, cli) {
                         //     dataClear += data.split(/(\n)+/gm)[i];
                         // }
 
-                        var lines = data.split('\n');
+                        const lines = data.split('\n');
                         lines.splice(0, 1);
                         lines.splice(lines.length - 1, 1);
                         dataClear = lines.join('\n');
@@ -197,10 +199,10 @@ function appendFile(message, pathCorrected, cli) {
             })
             .catch(collected => {
                 console.log(collected);
-                message.channel.send('Timeout');
+                message2.channel.send('Timeout');
                 cli.enableStdin = true;
             });
-    })
+    });
 
     // setTimeout(() => {
     //     cli.enableStdin = true;
@@ -208,8 +210,8 @@ function appendFile(message, pathCorrected, cli) {
     // cli.enableStdin = true;
 }
 
-// lol, i forgot to mention that version is float so this is wrong 
+// lol, i forgot to mention that version is float so this is wrong
 //                    \/
-//exports.Version = 2.10;
+// exports.Version = 2.10;
 
-exports.Version = "4.4";
+exports.Version = "4.4.1";
