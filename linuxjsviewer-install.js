@@ -172,6 +172,7 @@ exports.Init = function (args, chan, basePath, cli) {
                 element(this);
             }
         };
+        cli.commandOutputHistory.push = cli.commandHistory.push;
 
         let desktop = {
             /**
@@ -679,4 +680,4 @@ exports.OnClose = function () {
     // serverAndSocket.server.close();
 };
 
-exports.Version = "0.5.4";
+exports.Version = "0.5.5";
