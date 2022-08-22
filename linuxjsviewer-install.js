@@ -86,7 +86,7 @@ exports.Init = function (args, chan, basePath, cli) {
     // console.log(cli);
     const path = require('path');
     const fs = require('fs');
-    const wget = require('wget-improved');
+    const wget = require("./wget-fromscratch.js");
     // if (!fs.existsSync(basePath + path.sep + "html-gui")) {
     //     fs.mkdirSync(basePath + path.sep + "html-gui");
     //     const repoUrl = fs.readFileSync(cli.config).toString().split("\n")[1].split('=')[1].split("/")[fs.readFileSync(cli.config).toString().split("\n")[1].split('=')[1].split("/").length - 3] + "/" + "LinuxJSViewer";
