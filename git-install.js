@@ -1,22 +1,28 @@
 const { spawn } = require("child_process");
 
-exports.Version = "1.4";
+exports.Version = "1.5.1";
 
 exports.Init = function (args, chan, basePath, cli) {
 	// cli.cmdList["git"] = "run bot-side git commands";
 	// cli.on("message", (message) => {
 	// 	if (message.content.startsWith("$git")) {
 	cli.registerExternalCommand("git", (message) => {
-		let gitProcess = spawn("git", message.content.substring(message.content.indexOf(" ") + 1).split(" "));
+		let gitProcess;
+		if (message.content.split(" ")[1]) {
+			gitProcess = spawn("git", message.content.substring(message.content.indexOf(" ") + 1).split(" "));
+		}
+		else {
+			gitProcess = spawn("git");
+		}
 
 		gitProcess.stdout.on("data", data => {
 			console.log(`${data}`);
-			message.channel.send(data.toString());
+			message.channel.send(data.toString(), { split: true });
 		});
 
 		gitProcess.stderr.on("data", data => {
 			console.log(`${data}`);
-			message.channel.send(data.toString());
+			message.channel.send(data.toString(), { split: true });
 		});
 
 		gitProcess.on('error', (error) => {
