@@ -1,6 +1,6 @@
 const path = require("path");
 
-exports.Version = "0.2";
+exports.Version = "0.2.1";
 
 exports.Options = {
     upgradeFromGithubRequired: true,
@@ -41,7 +41,7 @@ exports.Init = function (args, chan, basePath, cli) {
         fs.readdirSync(cli.aptProtectedDir + path.sep + "autorun").forEach(file => {
             // console.log(file);
             if (file == "empty.txt") { return; }
-            if (path.extname(file) == ".js" && typeof require(file).Init === 'function') {
+            if (path.extname(file) == ".js" && typeof require(cli.aptProtectedDir + path.sep + "autorun" + path.sep + file).Init === 'function') {
                 packages.push(file);
             }
         });
