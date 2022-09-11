@@ -1,6 +1,6 @@
 const { spawn } = require("child_process");
 
-exports.Version = "1.5";
+exports.Version = "1.5.1";
 
 exports.Init = function (args, chan, basePath, cli) {
 	// cli.cmdList["git"] = "run bot-side git commands";
@@ -17,12 +17,12 @@ exports.Init = function (args, chan, basePath, cli) {
 
 		gitProcess.stdout.on("data", data => {
 			console.log(`${data}`);
-			message.channel.send(data.toString());
+			message.channel.send(data.toString(), { split: true });
 		});
 
 		gitProcess.stderr.on("data", data => {
 			console.log(`${data}`);
-			message.channel.send(data.toString());
+			message.channel.send(data.toString(), { split: true });
 		});
 
 		gitProcess.on('error', (error) => {
