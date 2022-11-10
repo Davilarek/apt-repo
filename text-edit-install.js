@@ -28,7 +28,8 @@ exports.Init = function (args, chan, basePath, cli) {
             }
 
             // console.log(pathCorrected);
-
+            // console.log(message);
+            // console.log(message.author);
             const ENV_VAR_DISABLED_FOLDERS = fs.readFileSync(basePath + path.sep + "VirtualDrive" + path.sep + "dir.cfg").toString().split("\n");
             if (!path.resolve(pathCorrected).includes("VirtualDrive") || ENV_VAR_DISABLED_FOLDERS.includes((path.basename(path.resolve(pathCorrected))))) {
                 // if (!path.resolve(pathCorrected).includes("VirtualDrive") || pathCorrected.includes("VirtualDrive") || ENV_VAR_DISABLED_FOLDERS.includes((path.basename(path.resolve(pathCorrected))))) {
@@ -36,7 +37,7 @@ exports.Init = function (args, chan, basePath, cli) {
             }
             else {
                 if (fs.existsSync(pathCorrected)) {
-                    editFile(message, pathCorrected, cli);
+                    editFile(message, pathCorrected, cli, resolve);
                 }
                 else {
                     message.channel.send("Target file doesn't exist. Creating one for you...");
@@ -76,7 +77,7 @@ exports.Init = function (args, chan, basePath, cli) {
             }
             else {
                 if (fs.existsSync(pathCorrected)) {
-                    appendFile(message, pathCorrected, cli);
+                    appendFile(message, pathCorrected, cli, resolve);
                 }
                 else {
                     message.channel.send("Target file doesn't exist. Creating one for you...");
@@ -220,4 +221,4 @@ function appendFile(message2, pathCorrected, cli, resolve) {
 //                    \/
 // exports.Version = 2.10;
 
-exports.Version = "4.4.5";
+exports.Version = "4.5";
