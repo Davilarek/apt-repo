@@ -7,86 +7,90 @@ exports.Init = function (args, chan, basePath, cli) {
     // console.log(cli.token); // undefined :)
 
     cli.registerExternalCommand("edit", (message, variableList) => {
-        const fs = require('fs');
-        const path = require('path');
+        return new Promise((resolve) => {
+            const fs = require('fs');
+            const path = require('path');
 
-        let pathCorrected = message.content.substring(message.content.indexOf(" ") + 1);
+            let pathCorrected = message.content.substring(message.content.indexOf(" ") + 1);
 
-        const localVarList = { ...cli.listEnv, ...variableList };
+            const localVarList = { ...cli.listEnv, ...variableList };
 
-        // if (pathCorrected == "edit") { return; }
-        if (!message.content.split(" ")[1])
-            return;
+            // if (pathCorrected == "edit") { return; }
+            if (!message.content.split(" ")[1])
+                return;
 
-        for (let i = 0; i < Object.keys(localVarList).length; i++) {
-            pathCorrected = cli.coolTools.replaceAll(pathCorrected, Object.keys(localVarList)[i], localVarList[Object.keys(localVarList)[i]]);
-        }
+            for (let i = 0; i < Object.keys(localVarList).length; i++) {
+                pathCorrected = cli.coolTools.replaceAll(pathCorrected, Object.keys(localVarList)[i], localVarList[Object.keys(localVarList)[i]]);
+            }
 
-        if (pathCorrected.startsWith("/")) {
-            pathCorrected = pathCorrected.replace("/", basePath + path.sep + "VirtualDrive" + path.sep);
-        }
+            if (pathCorrected.startsWith("/")) {
+                pathCorrected = pathCorrected.replace("/", basePath + path.sep + "VirtualDrive" + path.sep);
+            }
 
-        // console.log(pathCorrected);
+            // console.log(pathCorrected);
 
-        const ENV_VAR_DISABLED_FOLDERS = fs.readFileSync(basePath + path.sep + "VirtualDrive" + path.sep + "dir.cfg").toString().split("\n");
-        if (!path.resolve(pathCorrected).includes("VirtualDrive") || ENV_VAR_DISABLED_FOLDERS.includes((path.basename(path.resolve(pathCorrected))))) {
-            // if (!path.resolve(pathCorrected).includes("VirtualDrive") || pathCorrected.includes("VirtualDrive") || ENV_VAR_DISABLED_FOLDERS.includes((path.basename(path.resolve(pathCorrected))))) {
-            message.channel.send("Error: cannot access this path.");
-        }
-        else {
-            if (fs.existsSync(pathCorrected)) {
-                editFile(message, pathCorrected, cli);
+            const ENV_VAR_DISABLED_FOLDERS = fs.readFileSync(basePath + path.sep + "VirtualDrive" + path.sep + "dir.cfg").toString().split("\n");
+            if (!path.resolve(pathCorrected).includes("VirtualDrive") || ENV_VAR_DISABLED_FOLDERS.includes((path.basename(path.resolve(pathCorrected))))) {
+                // if (!path.resolve(pathCorrected).includes("VirtualDrive") || pathCorrected.includes("VirtualDrive") || ENV_VAR_DISABLED_FOLDERS.includes((path.basename(path.resolve(pathCorrected))))) {
+                message.channel.send("Error: cannot access this path.");
             }
             else {
-                message.channel.send("Target file doesn't exist. Creating one for you...");
-                cli.executeCommand(cli.fakeMessageCreator("$touch " + pathCorrected));
-                editFile(message, pathCorrected, cli);
+                if (fs.existsSync(pathCorrected)) {
+                    editFile(message, pathCorrected, cli);
+                }
+                else {
+                    message.channel.send("Target file doesn't exist. Creating one for you...");
+                    cli.executeCommand(cli.fakeMessageCreator("$touch " + pathCorrected));
+                    editFile(message, pathCorrected, cli, resolve);
+                }
             }
-        }
+        });
     }, "edit a file");
     cli.registerExternalCommand("append", (message, variableList) => {
-        const fs = require('fs');
-        const path = require('path');
+        return new Promise((resolve) => {
+            const fs = require('fs');
+            const path = require('path');
 
-        let pathCorrected = message.content.substring(message.content.indexOf(" ") + 1);
+            let pathCorrected = message.content.substring(message.content.indexOf(" ") + 1);
 
-        const localVarList = { ...cli.listEnv, ...variableList };
+            const localVarList = { ...cli.listEnv, ...variableList };
 
-        // if (pathCorrected == "$append") { return; }
-        if (!message.content.split(" ")[1])
-            return;
+            // if (pathCorrected == "$append") { return; }
+            if (!message.content.split(" ")[1])
+                return;
 
-        for (let i = 0; i < Object.keys(localVarList).length; i++) {
-            pathCorrected = cli.coolTools.replaceAll(pathCorrected, Object.keys(localVarList)[i], localVarList[Object.keys(localVarList)[i]]);
-        }
+            for (let i = 0; i < Object.keys(localVarList).length; i++) {
+                pathCorrected = cli.coolTools.replaceAll(pathCorrected, Object.keys(localVarList)[i], localVarList[Object.keys(localVarList)[i]]);
+            }
 
-        if (pathCorrected.startsWith("/")) {
-            pathCorrected = pathCorrected.replace("/", basePath + path.sep + "VirtualDrive" + path.sep);
-        }
+            if (pathCorrected.startsWith("/")) {
+                pathCorrected = pathCorrected.replace("/", basePath + path.sep + "VirtualDrive" + path.sep);
+            }
 
-        // console.log(pathCorrected);
+            // console.log(pathCorrected);
 
-        const ENV_VAR_DISABLED_FOLDERS = fs.readFileSync(basePath + path.sep + "VirtualDrive" + path.sep + "dir.cfg").toString().split("\n");
-        if (!path.resolve(pathCorrected).includes("VirtualDrive") || ENV_VAR_DISABLED_FOLDERS.includes((path.basename(path.resolve(pathCorrected))))) {
-            // if (!path.resolve(pathCorrected).includes("VirtualDrive") || pathCorrected.includes("VirtualDrive") || ENV_VAR_DISABLED_FOLDERS.includes((path.basename(path.resolve(pathCorrected))))) {
-            message.channel.send("Error: cannot access this path.");
-        }
-        else {
-            if (fs.existsSync(pathCorrected)) {
-                appendFile(message, pathCorrected, cli);
+            const ENV_VAR_DISABLED_FOLDERS = fs.readFileSync(basePath + path.sep + "VirtualDrive" + path.sep + "dir.cfg").toString().split("\n");
+            if (!path.resolve(pathCorrected).includes("VirtualDrive") || ENV_VAR_DISABLED_FOLDERS.includes((path.basename(path.resolve(pathCorrected))))) {
+                // if (!path.resolve(pathCorrected).includes("VirtualDrive") || pathCorrected.includes("VirtualDrive") || ENV_VAR_DISABLED_FOLDERS.includes((path.basename(path.resolve(pathCorrected))))) {
+                message.channel.send("Error: cannot access this path.");
             }
             else {
-                message.channel.send("Target file doesn't exist. Creating one for you...");
-                cli.executeCommand(cli.fakeMessageCreator("$touch " + pathCorrected));
-                appendFile(message, pathCorrected, cli);
+                if (fs.existsSync(pathCorrected)) {
+                    appendFile(message, pathCorrected, cli);
+                }
+                else {
+                    message.channel.send("Target file doesn't exist. Creating one for you...");
+                    cli.executeCommand(cli.fakeMessageCreator("$touch " + pathCorrected));
+                    appendFile(message, pathCorrected, cli, resolve);
+                }
             }
-        }
+        });
     }, "append a file");
     // }
     // });
 };
 
-function editFile(message, pathCorrected, cli) {
+function editFile(message, pathCorrected, cli, resolve) {
     const fs = require('fs');
     // const path = require('path');
     const filter = m => m.author.id === message.author.id;
@@ -133,6 +137,7 @@ function editFile(message, pathCorrected, cli) {
                     fs.writeFileSync(filename, dataClear);
                     message2.channel.send("Written " + (encodeURI(dataClear).split(/%..|./).length - 1) + " bytes");
                     cli.enableStdin = true;
+                    resolve(0);
                 }
             })
             .catch(collected => {
@@ -148,7 +153,7 @@ function editFile(message, pathCorrected, cli) {
     // cli.enableStdin = true;
 }
 
-function appendFile(message2, pathCorrected, cli) {
+function appendFile(message2, pathCorrected, cli, resolve) {
     const fs = require('fs');
     // const path = require('path');
     const filter = m => m.author.id === message2.author.id;
@@ -195,6 +200,7 @@ function appendFile(message2, pathCorrected, cli) {
                     fs.writeFileSync(filename, fs.readFileSync(filename).toString() + "\n" + dataClear);
                     message.channel.send("Written " + (encodeURI(dataClear).split(/%..|./).length - 1) + " bytes");
                     cli.enableStdin = true;
+                    resolve(0);
                 }
             })
             .catch(collected => {
@@ -214,4 +220,4 @@ function appendFile(message2, pathCorrected, cli) {
 //                    \/
 // exports.Version = 2.10;
 
-exports.Version = "4.4.1";
+exports.Version = "4.4.5";
