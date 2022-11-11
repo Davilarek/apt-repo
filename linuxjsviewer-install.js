@@ -640,6 +640,7 @@ function startServer(cli, debugMode, basePath, chan) {
             this.windowId = windowId;
             this.windowTitle = windowTitle;
             this.windowIcon = windowIcon;
+            this.contentUpdateInterval = 0;
         }
 
         getWindowId() {
@@ -681,6 +682,10 @@ function startServer(cli, debugMode, basePath, chan) {
             return this.htmlData;
         }
 
+        setContentUpdateInterval(id) {
+            this.contentUpdateInterval = id;
+        }
+
         setTaskbarTaskId(id) {
             this.taskbarTaskId = id;
         }
@@ -690,6 +695,7 @@ function startServer(cli, debugMode, basePath, chan) {
         }
 
         closeWindow() {
+            clearInterval(this.contentUpdateInterval);
             for (const item in desktop.windows) {
                 if (desktop.windows[item].getWindowId() == this.windowId) {
                     delete desktop.windows[item];
@@ -697,7 +703,6 @@ function startServer(cli, debugMode, basePath, chan) {
             }
             closeWindow(currentSocket, this);
             // remove from desktop.windows
-
         }
     }
 
@@ -721,4 +726,4 @@ exports.OnClose = function () {
     // serverAndSocket.server.close();
 };
 
-exports.Version = "0.5.9.1";
+exports.Version = "0.5.9.2";
