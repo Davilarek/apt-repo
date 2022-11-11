@@ -101,8 +101,8 @@ exports.Init = function (args, chan, basePath, cli) {
 
     const resourceList = [
         "https://raw.githubusercontent.com/Davilarek/LinuxJSViewer/master/html-gui/taskbar-task-template.html",
-        "https://github.com/Davilarek/LinuxJSViewer/raw/master/html-gui/taskbar.html",
-        "https://github.com/Davilarek/LinuxJSViewer/raw/master/html-gui/window-template.html",
+        "https://raw.githubusercontent.com/Davilarek/LinuxJSViewer/master/html-gui/taskbar.html",
+        "https://raw.githubusercontent.com/Davilarek/LinuxJSViewer/master/html-gui/window-template.html",
     ];
     // i'll work later on this /\
     // needs more portability, I was thinking about zip or something but it would need package for that
@@ -704,4 +704,4 @@ exports.OnClose = function () {
     // serverAndSocket.server.close();
 };
 
-exports.Version = "0.5.8";
+exports.Version = "0.5.9";
