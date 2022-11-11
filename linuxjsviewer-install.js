@@ -179,25 +179,42 @@ function startServer(cli, debugMode, basePath, chan) {
      * @type {Array<Function>}
      */
     const consoleListeners = [];
-    cli.commandHistory.push = function () {
-        Array.prototype.push.apply(this, arguments);
+    // cli.commandHistory.push = function () {
+    //     Array.prototype.push.apply(this, arguments);
 
+    //     for (let index = 0; index < consoleListeners.length; index++) {
+    //         const element = consoleListeners[index];
+    //         element(this);
+    //     }
+    // };
+    // cli.commandOutputHistory.push = function () {
+    //     Array.prototype.push.apply(this, arguments);
+
+    //     for (let index = 0; index < consoleListeners.length; index++) {
+    //         const element = consoleListeners[index];
+    //         const e = this;
+    //         setTimeout(() => {
+    //             element(e);
+    //         }, 50);
+    //     }
+    // };
+
+    cli.getConsoleEmitters.input.on('message', (data) => {
         for (let index = 0; index < consoleListeners.length; index++) {
             const element = consoleListeners[index];
-            element(this);
+            const d = [];
+            d.push(data);
+            element(d);
         }
-    };
-    cli.commandOutputHistory.push = function () {
-        Array.prototype.push.apply(this, arguments);
-
+    });
+    cli.getConsoleEmitters.output.on('message', (data) => {
         for (let index = 0; index < consoleListeners.length; index++) {
             const element = consoleListeners[index];
-            const e = this;
-            setTimeout(() => {
-                element(e);
-            }, 50);
+            const d = [];
+            d.push(data);
+            element(d);
         }
-    };
+    });
 
     let desktop = {
         /**
@@ -704,4 +721,4 @@ exports.OnClose = function () {
     // serverAndSocket.server.close();
 };
 
-exports.Version = "0.5.9";
+exports.Version = "0.5.9.1";
