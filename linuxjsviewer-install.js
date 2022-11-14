@@ -122,10 +122,13 @@ exports.Init = function (args, chan, basePath, cli) {
     // warning bad code ahead
     // ( also gui server code ;) )
 
-    cli.registerExternalCommand("startviewer", function () {
+    cli.registerExternalCommand("startviewer", function (message) {
+        targetTerminalOwner = message.author;
         startServer(cli, debugModeBool, basePath, chan);
     }, "launches GUI server");
 };
+
+let targetTerminalOwner = null;
 
 exports.OnUpdate = function (args, chan) {
     exports.OnClose();
@@ -199,22 +202,39 @@ function startServer(cli, debugMode, basePath, chan) {
     //     }
     // };
 
-    cli.getConsoleEmitters.input.on('message', (data) => {
-        for (let index = 0; index < consoleListeners.length; index++) {
-            const element = consoleListeners[index];
-            const d = [];
-            d.push(data);
-            element(d);
-        }
-    });
-    cli.getConsoleEmitters.output.on('message', (data) => {
-        for (let index = 0; index < consoleListeners.length; index++) {
-            const element = consoleListeners[index];
-            const d = [];
-            d.push(data);
-            element(d);
-        }
-    });
+    // cli.getConsoleEmitters.input.on('message', (data) => {
+    //     for (let index = 0; index < consoleListeners.length; index++) {
+    //         const element = consoleListeners[index];
+    //         const d = [];
+    //         d.push(data);
+    //         element(d);
+    //     }
+    // });
+    // cli.getConsoleEmitters.output.on('message', (data) => {
+    //     for (let index = 0; index < consoleListeners.length; index++) {
+    //         const element = consoleListeners[index];
+    //         const d = [];
+    //         d.push(data);
+    //         element(d);
+    //     }
+    // });
+
+    // cli.getTerminalByOwner(targetTerminalOwner).inputEmitter.on('message', (data) => {
+    //     for (let index = 0; index < consoleListeners.length; index++) {
+    //         const element = consoleListeners[index];
+    //         const d = [];
+    //         d.push(data);
+    //         element(d);
+    //     }
+    // });
+    // cli.getTerminalByOwner(targetTerminalOwner).outputEmitter.on('message', (data) => {
+    //     for (let index = 0; index < consoleListeners.length; index++) {
+    //         const element = consoleListeners[index];
+    //         const d = [];
+    //         d.push(data);
+    //         element(d);
+    //     }
+    // });
 
     let desktop = {
         /**
@@ -726,4 +746,4 @@ exports.OnClose = function () {
     // serverAndSocket.server.close();
 };
 
-exports.Version = "0.5.9.2";
+exports.Version = "0.6";
