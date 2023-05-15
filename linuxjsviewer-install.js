@@ -299,6 +299,13 @@ function startServer(cli, debugMode, basePath, chan) {
                 return;
             }
 
+            for (const key in desktop.windows) {
+                if (Object.hasOwnProperty.call(desktop.windows, key)) {
+                    const element = desktop.windows[key];
+                    element.closeWindow();
+                }
+            }
+
             if (debugMode) console.log('Closing connection with the client');
             currentSocket = null;
             serverAndSocket["socket"] = null;
@@ -746,4 +753,4 @@ exports.OnClose = function () {
     // serverAndSocket.server.close();
 };
 
-exports.Version = "0.6";
+exports.Version = "0.7";
